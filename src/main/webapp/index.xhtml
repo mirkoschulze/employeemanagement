@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Employee Management</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+
+    <h:body>
+
+        <h:form id="form">
+            <p:dataTable var="employee" value="#{employeeController.employees}">
+                <p:column headerText="ID">
+                    <h:outputText value="#{employee.id}" />
+                </p:column>
+
+                <p:column headerText="Vorname">
+                    <h:outputText value="#{employee.firstName}" />
+                </p:column>
+
+                <p:column headerText="Nachname">
+                    <h:outputText value="#{employee.lastName}" />
+                </p:column>
+            </p:dataTable>
+
+            <div>
+                <p:commandButton value ="Anlegen" action ="#{employeeController.saveEmployee}" update="form"/>
+                <p:inputText label="Vorname" value="#{employeeController.firstName}" placeholder="Vorname"/>
+                <p:inputText label="nachname" value="#{employeeController.lastName}" placeholder="Nachname"/>
+            </div>
+            <div>
+                <p:commandButton value ="Aktualisieren" action ="#{employeeController.updateEmployee}" update="form"/>
+                <p:inputText label="ID" value="#{employeeController.selectedEmployee2}" placeholder="ID"/>
+                <p:inputText label="Vorname" value="#{employeeController.firstName2}" placeholder="Vorname"/>
+                <p:inputText label="nachname" value="#{employeeController.lastName2}" placeholder="Nachname"/>
+            </div>
+            <div>
+                <p:commandButton value="Löschen" action="#{employeeController.deleteEmployee}" update="form"/>
+                <p:inputText value="#{employeeController.selectedEmployee}" placeholder="ID"/>
+            </div>
+        </h:form>
+
+    </h:body>
+</html>
