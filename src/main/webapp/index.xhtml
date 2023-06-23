@@ -12,15 +12,6 @@
 
     <h:body>
 
-        <h:form id="dialogForm">
-            <p:dialog id="dialogTest" 
-                      widgetVar="dialogTest" 
-                      header="header" 
-                      modal="true">
-                <h:outputText value="Test output" />
-            </p:dialog>
-        </h:form>
-
         <h:form id="form">
             <p:dataTable var="employee" value="#{employeeController.employees}">
                 <p:column headerText="ID">
@@ -38,21 +29,21 @@
 
             <div>
                 <p:commandButton value ="Anlegen" action ="#{employeeController.saveEmployee}" update="form"/>
-                <p:inputText label="Vorname" value="#{employeeController.firstName}" placeholder="Vorname"/>
-                <p:inputText label="nachname" value="#{employeeController.lastName}" placeholder="Nachname"/>
+                <p:inputText label="Vorname" value="#{employeeController.saveFirstName}" placeholder="Vorname"/>
+                <p:inputText label="nachname" value="#{employeeController.saveLastName}" placeholder="Nachname"/>
             </div>
             <div>
-                <p:commandButton value ="Aktualisieren" action ="#{employeeController.updateEmployee}" update="form, @this, :dialogForm, :dialogForm:dialogTest"
-                                 oncomplete="if (#{employeeController.optionalNotFound}) { PF('dialogTest').show() }"/>
-                <p:inputText label="ID" value="#{employeeController.selectedEmployee2}" placeholder="ID"/>
-                <p:inputText label="Vorname" value="#{employeeController.firstName2}" placeholder="Vorname"/>
-                <p:inputText label="nachname" value="#{employeeController.lastName2}" placeholder="Nachname"/>
+                <p:commandButton value ="Aktualisieren" action ="#{employeeController.updateEmployee}" update="form"/>
+                <p:inputText label="ID" value="#{employeeController.updateId}" placeholder="ID"/>
+                <p:inputText label="Vorname" value="#{employeeController.updateFirstName}" placeholder="Vorname"/>
+                <p:inputText label="nachname" value="#{employeeController.updateLastName}" placeholder="Nachname"/>
             </div>
             <div>
                 <p:commandButton value="Löschen" action="#{employeeController.deleteEmployee}" update="form"/>
-                <p:inputText value="#{employeeController.selectedEmployee}" placeholder="ID"/>
+                <p:inputText value="#{employeeController.deleteId}" placeholder="ID"/>
             </div>
         </h:form>
 
     </h:body>
+    
 </html>

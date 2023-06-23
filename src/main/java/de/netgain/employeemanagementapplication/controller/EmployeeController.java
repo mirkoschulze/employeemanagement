@@ -7,16 +7,10 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- *
- * @author MirkoSchulze
- */
-//@Controller
 @Named("employeeController")
 @ViewScoped
 public class EmployeeController implements Serializable {
@@ -28,50 +22,11 @@ public class EmployeeController implements Serializable {
 
     private Collection<Employee> employees;
 
-    private long selectedEmployee, selectedEmployee2;
+    private long updateId, deleteId;
 
-    private String firstName, lastName, firstName2, lastName2;
+    private String saveFirstName, saveLastName, updateFirstName, updateLastName;
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public long getSelectedEmployee2() {
-        return selectedEmployee2;
-    }
-
-    public void setSelectedEmployee2(long selectedEmployee2) {
-        this.selectedEmployee2 = selectedEmployee2;
-    }
-
-    public String getFirstName2() {
-        return firstName2;
-    }
-
-    public void setFirstName2(String firstName2) {
-        this.firstName2 = firstName2;
-    }
-
-    public String getLastName2() {
-        return lastName2;
-    }
-
-    public void setLastName2(String lastName2) {
-        this.lastName2 = lastName2;
-    }
-
+    //<editor-fold defaultstate="collapsed" desc="getter/setter">
     public Collection<Employee> getEmployees() {
         return employees;
     }
@@ -80,71 +35,88 @@ public class EmployeeController implements Serializable {
         this.employees = employees;
     }
 
-    public void setSelectedEmployee(long selectedEmployee) {
-        this.selectedEmployee = selectedEmployee;
+    public long getUpdateId() {
+        return updateId;
     }
 
-    public long getSelectedEmployee() {
-        return selectedEmployee;
+    public void setUpdateId(long updateId) {
+        this.updateId = updateId;
     }
 
-    public void deleteEmployee() {
-        L.info(this.getClass().getSimpleName() + ": deleteEmployee(" + getSelectedEmployee() + ")");
-        employeeService.deleteEmployee(getSelectedEmployee());
+    public long getDeleteId() {
+        return deleteId;
+    }
+
+    public void setDeleteId(long deleteId) {
+        this.deleteId = deleteId;
+    }
+
+    public String getSaveFirstName() {
+        return saveFirstName;
+    }
+
+    public void setSaveFirstName(String saveFirstName) {
+        this.saveFirstName = saveFirstName;
+    }
+
+    public String getSaveLastName() {
+        return saveLastName;
+    }
+
+    public void setSaveLastName(String saveLastName) {
+        this.saveLastName = saveLastName;
+    }
+
+    public String getUpdateFirstName() {
+        return updateFirstName;
+    }
+
+    public void setUpdateFirstName(String updateFirstName) {
+        this.updateFirstName = updateFirstName;
+    }
+
+    public String getUpdateLastName() {
+        return updateLastName;
+    }
+
+    public void setUpdateLastName(String updateLastName) {
+        this.updateLastName = updateLastName;
+    }
+    //</editor-fold>
+
+    @PostConstruct
+    public void init() {
+        L.debug("[" + this.getClass().getSimpleName() + "] : init() called");
         refreshView();
     }
 
     public void saveEmployee() {
-        L.info(this.getClass().getSimpleName() + ": saveEmployee()");
+        L.debug("[" + this.getClass().getSimpleName() + "] : saveEmployee() called");
         Employee employee = new Employee();
-        employee.setFirstName(getFirstName());
-        employee.setLastName(getLastName());
-        L.info("Employee = " + employee.toString());
+        employee.setFirstName(saveFirstName);
+        employee.setLastName(saveLastName);
         employeeService.saveEmployee(employee);
         refreshView();
     }
 
     public void updateEmployee() {
-        L.info(this.getClass().getSimpleName() + ": updateEmployee(" + selectedEmployee2 + ")");
-        L.info(this.getClass().getSimpleName() + ": firstName2 = " + firstName2 + ", lastName2 = " + lastName2 + ", selectedEmployee2 = " + selectedEmployee2);
+        L.debug("[" + this.getClass().getSimpleName() + "] : updateEmployee() called");
         Employee employeeData = new Employee();
-        employeeData.setFirstName(firstName2);
-        employeeData.setLastName(lastName2);
-        if (checkOptional(employeeService.getEmployeeById(selectedEmployee2))) {
-            employeeService.updateEmployee(selectedEmployee2, employeeData);
-        } 
+        employeeData.setFirstName(updateFirstName);
+        employeeData.setLastName(updateLastName);
+        employeeService.updateEmployee(updateId, employeeData);
         refreshView();
     }
 
-    @PostConstruct
-    public void init() {
-        L.info(this.getClass().getSimpleName() + ": init()");
+    public void deleteEmployee() {
+        L.debug("[" + this.getClass().getSimpleName() + "] : deleteEmployee() called");
+        employeeService.deleteEmployee(deleteId);
         refreshView();
     }
 
     private void refreshView() {
+        L.debug("[" + this.getClass().getSimpleName() + "] : refresh() called");
         this.employees = employeeService.getAllEmployees();
-    }
-
-    private boolean optionalNotFound;
-
-    public boolean isOptionalNotFound() {
-        L.info("flag is " + optionalNotFound);
-        return optionalNotFound;
-    }
-
-//    public void setOptionalNotFound(boolean flag) {
-//        this.optionalNotFound = flag;
-//    }
-
-    public  boolean checkOptional(Optional<Employee> employee) {
-        L.info("checkopt");
-        employee.ifPresentOrElse(e ->{
-            optionalNotFound =false;
-        }, () -> {
-            optionalNotFound = true;
-        });
-        return optionalNotFound;
     }
 
 }
