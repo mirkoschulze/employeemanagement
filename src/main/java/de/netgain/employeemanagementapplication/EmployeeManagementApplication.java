@@ -29,6 +29,7 @@ public class EmployeeManagementApplication extends SpringBootServletInitializer 
         servletContext.setInitParameter("com.sun.faces.forceLoadConfiguration", Boolean.TRUE.toString());
     }
     
+    //TODO raus
     @Bean
         public CommandLineRunner demo(EmployeeRepository repo){
             return (args) -> {
@@ -39,4 +40,6 @@ public class EmployeeManagementApplication extends SpringBootServletInitializer 
                 repo.save(new Employee("Michelle", "Dessler"));
             };
         }
+        
+        //TODO javadoc
 }

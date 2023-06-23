@@ -9,7 +9,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
 
+
     <h:body>
+
+        <h:form id="dialogForm">
+            <p:dialog id="dialogTest" 
+                      widgetVar="dialogTest" 
+                      header="header" 
+                      modal="true">
+                <h:outputText value="Test output" />
+            </p:dialog>
+        </h:form>
 
         <h:form id="form">
             <p:dataTable var="employee" value="#{employeeController.employees}">
@@ -32,7 +42,8 @@
                 <p:inputText label="nachname" value="#{employeeController.lastName}" placeholder="Nachname"/>
             </div>
             <div>
-                <p:commandButton value ="Aktualisieren" action ="#{employeeController.updateEmployee}" update="form"/>
+                <p:commandButton value ="Aktualisieren" action ="#{employeeController.updateEmployee}" update="form, @this, :dialogForm, :dialogForm:dialogTest"
+                                 oncomplete="if (#{employeeController.optionalNotFound}) { PF('dialogTest').show() }"/>
                 <p:inputText label="ID" value="#{employeeController.selectedEmployee2}" placeholder="ID"/>
                 <p:inputText label="Vorname" value="#{employeeController.firstName2}" placeholder="Vorname"/>
                 <p:inputText label="nachname" value="#{employeeController.lastName2}" placeholder="Nachname"/>
