@@ -44,6 +44,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.ifPresentOrElse(e -> {
             e.setFirstName(employeeData.getFirstName());
             e.setLastName(employeeData.getLastName());
+            //TODO bi di mapping
+            e.setDepartment(employeeData.getDepartment());
             employeeRepository.save(e);
             L.debug("[" + this.getClass().getSimpleName() + "] : employee updated");
         }, () -> L.debug("[" + this.getClass().getSimpleName() + "] : employee not updated"));
@@ -54,6 +56,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public void deleteEmployee(long id) {
         L.debug("[" + this.getClass().getSimpleName() + "] : deleteEmployee(long id) called with param = " + id);
+        Optional<Employee> employee = employeeRepository.findById(id);
+        //TODO bidirectional mapping sicherstellen bzw was macht jparepository/hibernate hier
+        employee.ifPresent(e -> e.getDepartment().removeEmployee(e));
         employeeRepository.deleteById(id);
     }
 

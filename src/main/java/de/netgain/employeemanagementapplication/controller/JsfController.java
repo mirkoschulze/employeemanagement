@@ -1,6 +1,8 @@
 package de.netgain.employeemanagementapplication.controller;
 
+import de.netgain.employeemanagementapplication.model.Department;
 import de.netgain.employeemanagementapplication.model.Employee;
+import de.netgain.employeemanagementapplication.service.DepartmentService;
 import de.netgain.employeemanagementapplication.service.EmployeeService;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
@@ -11,16 +13,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Named("employeeController")
+@Named("jsfController")
 @ViewScoped
-public class EmployeeController implements Serializable {
+public class JsfController implements Serializable {
 
-    private static final Logger L = LoggerFactory.getLogger(EmployeeController.class);
+    private static final Logger L = LoggerFactory.getLogger(JsfController.class);
 
     @Autowired
     private EmployeeService employeeService;
+    
+    @Autowired
+    private DepartmentService departmentService;
 
     private Collection<Employee> employees;
+
+    private Collection<Department> departments;
+
+    private Department selectedDepartment, updateSelectedDepartment;
 
     private long updateId, deleteId;
 
@@ -33,6 +42,30 @@ public class EmployeeController implements Serializable {
 
     public void setEmployees(Collection<Employee> employees) {
         this.employees = employees;
+    }
+
+    public Collection<Department> getDepartments() {
+        return departments;
+    }
+
+    public void setDepartments(Collection<Department> departments) {
+        this.departments = departments;
+    }
+
+    public EmployeeService getEmployeeService() {
+        return employeeService;
+    }
+
+    public void setEmployeeService(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
+
+    public Department getSelectedDepartment() {
+        return selectedDepartment;
+    }
+
+    public void setSelectedDepartment(Department selectedDepartment) {
+        this.selectedDepartment = selectedDepartment;
     }
 
     public long getUpdateId() {
@@ -95,6 +128,7 @@ public class EmployeeController implements Serializable {
         Employee employee = new Employee();
         employee.setFirstName(saveFirstName);
         employee.setLastName(saveLastName);
+        employee.setDepartment(selectedDepartment);
         employeeService.saveEmployee(employee);
         refreshView();
     }
@@ -104,6 +138,7 @@ public class EmployeeController implements Serializable {
         Employee employeeData = new Employee();
         employeeData.setFirstName(updateFirstName);
         employeeData.setLastName(updateLastName);
+        employeeData.setDepartment(updateSelectedDepartment);
         employeeService.updateEmployee(updateId, employeeData);
         refreshView();
     }
@@ -114,9 +149,14 @@ public class EmployeeController implements Serializable {
         refreshView();
     }
 
+//    public void departmentChangeListener(ValueChangeEvent event){
+//        Object newValue = event.getNewValue();
+//        
+//    }
     private void refreshView() {
         L.debug("[" + this.getClass().getSimpleName() + "] : refresh() called");
         this.employees = employeeService.getAllEmployees();
+        this.departments = departmentService.getAllDepartments();
     }
 
 }

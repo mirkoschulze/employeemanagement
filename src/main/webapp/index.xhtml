@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui">
 
@@ -13,7 +14,7 @@
     <h:body>
 
         <h:form id="form">
-            <p:dataTable var="employee" value="#{employeeController.employees}">
+            <p:dataTable value="#{employeeController.employees}" var="employee">
                 <p:column headerText="ID">
                     <h:outputText value="#{employee.id}" />
                 </p:column>
@@ -25,22 +26,33 @@
                 <p:column headerText="Nachname">
                     <h:outputText value="#{employee.lastName}" />
                 </p:column>
+                <p:column headerText="Abteilung">
+                    <h:outputText value="#{employee.department}" />
+                </p:column>
             </p:dataTable>
 
             <div>
-                <p:commandButton value ="Anlegen" action ="#{employeeController.saveEmployee}" update="form"/>
-                <p:inputText label="Vorname" value="#{employeeController.saveFirstName}" placeholder="Vorname"/>
-                <p:inputText label="nachname" value="#{employeeController.saveLastName}" placeholder="Nachname"/>
+                <p:commandButton value ="Anlegen" action ="#{jsfController.saveEmployee}" update="form"/>
+                <p:inputText label="Vorname" value="#{jsfController.saveFirstName}" placeholder="Vorname"/>
+                <p:inputText label="nachname" value="#{jsfController.saveLastName}" placeholder="Nachname"/>
+                
+                <p:selectOneMenu value="#{jsfController.selectedDepartment}" var="dep">
+                    <f:selectItems value="#{jsfController.departments}" var="department" itemLabel="#{department.name}" itemValue="#{department}"/>
+                    <p:column>
+                        <h:outputText value="#{dep.name}"/>
+                    </p:column>
+                </p:selectOneMenu>
+            </div>
+            
+            <div>
+                <p:commandButton value ="Aktualisieren" action ="#{jsfController.updateEmployee}" update="form"/>
+                <p:inputText label="ID" value="#{jsfController.updateId}" placeholder="ID"/>
+                <p:inputText label="Vorname" value="#{jsfController.updateFirstName}" placeholder="Vorname"/>
+                <p:inputText label="nachname" value="#{jsfController.updateLastName}" placeholder="Nachname"/>
             </div>
             <div>
-                <p:commandButton value ="Aktualisieren" action ="#{employeeController.updateEmployee}" update="form"/>
-                <p:inputText label="ID" value="#{employeeController.updateId}" placeholder="ID"/>
-                <p:inputText label="Vorname" value="#{employeeController.updateFirstName}" placeholder="Vorname"/>
-                <p:inputText label="nachname" value="#{employeeController.updateLastName}" placeholder="Nachname"/>
-            </div>
-            <div>
-                <p:commandButton value="Löschen" action="#{employeeController.deleteEmployee}" update="form"/>
-                <p:inputText value="#{employeeController.deleteId}" placeholder="ID"/>
+                <p:commandButton value="Löschen" action="#{jsfController.deleteEmployee}" update="form"/>
+                <p:inputText value="#{jsfController.deleteId}" placeholder="ID"/>
             </div>
         </h:form>
 
