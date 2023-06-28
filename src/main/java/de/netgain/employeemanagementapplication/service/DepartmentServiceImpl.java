@@ -8,8 +8,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class DepartmentServiceImpl implements DepartmentService{
-    
+/**
+ * Implementation of {@link DepartmentService}.
+ *
+ * @author MirkoSchulze
+ */
+public class DepartmentServiceImpl implements DepartmentService {
+
     private static final Logger L = LoggerFactory.getLogger(DepartmentServiceImpl.class);
 
     @Autowired
@@ -42,7 +47,9 @@ public class DepartmentServiceImpl implements DepartmentService{
         L.info("[" + this.getClass().getSimpleName() + "] : updateDepartment(long id, Department departmentData) called with param = " + id + "; " + departmentData);
         Optional<Department> department = departmentRepository.findById(id);
         department.ifPresentOrElse(d -> {
-            if(!departmentData.getName().isBlank()) d.setName(departmentData.getName());
+            if (!departmentData.getName().isBlank()) {
+                d.setName(departmentData.getName());
+            }
             departmentRepository.save(d);
             L.info("[" + this.getClass().getSimpleName() + "] : Department updated");
         }, () -> L.info("[" + this.getClass().getSimpleName() + "] : Department not updated"));

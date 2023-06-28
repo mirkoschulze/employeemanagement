@@ -15,6 +15,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
+/**
+ * Representation of a company department.
+ *
+ * @author MirkoSchulze
+ */
 @Entity
 @Table(name = "departments")
 public class Department {

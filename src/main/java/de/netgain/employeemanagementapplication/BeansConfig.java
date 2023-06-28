@@ -7,6 +7,11 @@ import de.netgain.employeemanagementapplication.service.EmployeeServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Configuration for Spring Beans.
+ *
+ * @author MirkoSchulze
+ */
 @Configuration
 public class BeansConfig {
 

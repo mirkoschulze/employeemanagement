@@ -16,9 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Contains logic to execute JPA operations with {@link Department}s via REST.
+ *
+ * @author MirkoSchulze
+ */
 @RestController
 public class DepartmentRestController {
-    
+
     private static final Logger L = LoggerFactory.getLogger(DepartmentRestController.class);
 
     @Autowired

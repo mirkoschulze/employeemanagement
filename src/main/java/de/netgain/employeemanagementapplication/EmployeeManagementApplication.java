@@ -16,6 +16,13 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.context.ServletContextAware;
 
+/**
+ * Main entry point for a Spring web application.
+ * <p>
+ * Includes configuration for JSF usage and JPA operations for development purposes.
+ *
+ * @author MirkoSchulze
+ */
 @SpringBootApplication
 public class EmployeeManagementApplication extends SpringBootServletInitializer implements ServletContextAware {
 

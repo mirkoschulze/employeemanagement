@@ -1,6 +1,5 @@
 package de.netgain.employeemanagementapplication.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.Column;
@@ -13,6 +12,11 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.util.Objects;
 
+/**
+ * Representation of company employee.
+ *
+ * @author MirkoSchulze
+ */
 @Entity
 @Table(name = "employees")
 public class Employee {

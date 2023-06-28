@@ -16,6 +16,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+/**
+ * MVC controller class, contains the logic for the GUI.
+ *
+ * @author MirkoSchulze
+ */
 @Named("jsfController")
 @ViewScoped
 public class JsfController implements Serializable {
@@ -161,6 +166,9 @@ public class JsfController implements Serializable {
         reloadLists();
     }
 
+    /**
+     * Persist an {@link Employee} to the database.
+     */
     public void saveEmployee() {
         L.info("[" + this.getClass().getSimpleName() + "] : saveEmployee() called");
         if (Utils.validateName(saveFirstName) && Utils.validateName(saveLastName)) {
@@ -175,6 +183,9 @@ public class JsfController implements Serializable {
         }
     }
 
+    /**
+     * Persist an {@link Employee} in the database.
+     */
     public void updateEmployee() {
         L.info("[" + this.getClass().getSimpleName() + "] : updateEmployee() called");
         if (Utils.validateName(updateFirstName) && Utils.validateName(updateLastName)) {
@@ -189,12 +200,18 @@ public class JsfController implements Serializable {
         }
     }
 
+    /**
+     * Delete an {@link Employee} from the database.
+     */
     public void deleteEmployee() {
         L.info("[" + this.getClass().getSimpleName() + "] : deleteEmployee() called");
         employeeService.deleteEmployee(deleteEmployeeId);
         reloadLists();
     }
 
+    /**
+     * Persist a {@link Department} to the database.
+     */
     public void saveDepartment() {
         L.info("[" + this.getClass().getSimpleName() + "] : saveDepartment() called");
         if (Utils.validateName(saveName)) {
@@ -206,6 +223,9 @@ public class JsfController implements Serializable {
         }
     }
 
+    /**
+     * Update a {@link Department} in the database.
+     */
     public void updateDepartment() {
         L.info("[" + this.getClass().getSimpleName() + "] : updateDepartment() called");
         Department departmentData = new Department(updateName);
@@ -217,6 +237,9 @@ public class JsfController implements Serializable {
         }
     }
 
+    /**
+     * Delete a {@link Department} from the database.
+     */
     public void deleteDepartment() {
         L.info("[" + this.getClass().getSimpleName() + "] : deleteDepartment() called");
         departmentService.deleteDepartment(deleteDepartmentId);
@@ -227,6 +250,9 @@ public class JsfController implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
     }
 
+    /**
+     * Reload the lists used for the datatables in the GUI.
+     */
     private void reloadLists() {
         L.info("[" + this.getClass().getSimpleName() + "] : reloadLists() called");
         this.employees = employeeService.getAllEmployees();

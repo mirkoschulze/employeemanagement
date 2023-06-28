@@ -4,6 +4,12 @@ import de.netgain.employeemanagementapplication.model.Employee;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * This interface defines the JPA operations involving {@link Employee}s that
+ * are needed for this application.
+ *
+ * @author MirkoSchulze
+ */
 public interface EmployeeService {
 
     public List<Employee> getAllEmployees();
