@@ -2,7 +2,7 @@ package de.netgain.employeemanagementapplication.service;
 
 import de.netgain.employeemanagementapplication.model.Department;
 import de.netgain.employeemanagementapplication.repository.DepartmentRepository;
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,43 +16,43 @@ public class DepartmentServiceImpl implements DepartmentService{
     private DepartmentRepository departmentRepository;
 
     @Override
-    public Collection<Department> getAllDepartments() {
-        L.debug("[" + this.getClass().getSimpleName() + "] : getAllDepartments() called");
-        Collection<Department> departments = departmentRepository.findAll();
-        L.debug("[" + this.getClass().getSimpleName() + "] : returning Collection<Department> departments = " + departments.toString());
+    public List<Department> getAllDepartments() {
+        L.info("[" + this.getClass().getSimpleName() + "] : getAllDepartments() called");
+        List<Department> departments = departmentRepository.findAll();
+        L.info("[" + this.getClass().getSimpleName() + "] : returning Collection<Department> departments = " + departments.toString());
         return departments;
     }
 
     @Override
     public Optional<Department> getDepartmentById(long id) {
-        L.debug("[" + this.getClass().getSimpleName() + "] : getDepartmentById(long id) called with param = " + id);
+        L.info("[" + this.getClass().getSimpleName() + "] : getDepartmentById(long id) called with param = " + id);
         Optional<Department> department = departmentRepository.findById(id);
-        L.debug("[" + this.getClass().getSimpleName() + "] : returning Optional<Department> department = " + department.toString());
+        L.info("[" + this.getClass().getSimpleName() + "] : returning Optional<Department> department = " + department);
         return department;
     }
 
     @Override
     public Department saveDepartment(Department department) {
-        L.debug("[" + this.getClass().getSimpleName() + "] : saveDepartment(Department department) called with param = " + department.toSimpleName());
+        L.info("[" + this.getClass().getSimpleName() + "] : saveDepartment(Department department) called with param = " + department);
         return departmentRepository.save(department);
     }
 
     @Override
     public Optional<Department> updateDepartment(long id, Department departmentData) {
-        L.debug("[" + this.getClass().getSimpleName() + "] : updateDepartment(long id, Department departmentData) called with param = " + id + "; " + departmentData.toSimpleName());
-        Optional<Department> Department = departmentRepository.findById(id);
-        Department.ifPresentOrElse(d -> {
+        L.info("[" + this.getClass().getSimpleName() + "] : updateDepartment(long id, Department departmentData) called with param = " + id + "; " + departmentData);
+        Optional<Department> department = departmentRepository.findById(id);
+        department.ifPresentOrElse(d -> {
             d.setName(departmentData.getName());
             departmentRepository.save(d);
-            L.debug("[" + this.getClass().getSimpleName() + "] : Department updated");
-        }, () -> L.debug("[" + this.getClass().getSimpleName() + "] : Department not updated"));
-        L.debug("[" + this.getClass().getSimpleName() + "] : returning Optional<Department> Department = " + Department.toString());
-        return Department;
+            L.info("[" + this.getClass().getSimpleName() + "] : Department updated");
+        }, () -> L.info("[" + this.getClass().getSimpleName() + "] : Department not updated"));
+        L.info("[" + this.getClass().getSimpleName() + "] : returning Optional<Department> Department = " + department);
+        return department;
     }
 
     @Override
     public void deleteDepartment(long id) {
-        L.debug("[" + this.getClass().getSimpleName() + "] : deleteDepartment(long id) called with param = " + id);
+        L.info("[" + this.getClass().getSimpleName() + "] : deleteDepartment(long id) called with param = " + id);
         Optional<Department> department = departmentRepository.findById(id);
         department.ifPresent(d -> d.getEmployees().forEach(e -> d.removeEmployee(e)));
         departmentRepository.deleteById(id);

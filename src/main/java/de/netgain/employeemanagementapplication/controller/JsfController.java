@@ -8,7 +8,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,67 +21,83 @@ public class JsfController implements Serializable {
 
     @Autowired
     private EmployeeService employeeService;
-    
+
     @Autowired
     private DepartmentService departmentService;
 
-    private Collection<Employee> employees;
+    private List<Employee> employees;
 
-    private Collection<Department> departments;
+    private List<Department> departments;
 
-    private Department selectedDepartment, updateSelectedDepartment;
+    private Department saveDepartment, updateDepartment;
 
-    private long updateId, deleteId;
+    private long updateEmployeeId, deleteEmployeeId, updateDepartmentId, deleteDepartmentId;
 
-    private String saveFirstName, saveLastName, updateFirstName, updateLastName;
+    private String saveFirstName, saveLastName, updateFirstName, updateLastName, saveName, updateName;
 
     //<editor-fold defaultstate="collapsed" desc="getter/setter">
-    public Collection<Employee> getEmployees() {
+    public List<Employee> getEmployees() {
         return employees;
     }
 
-    public void setEmployees(Collection<Employee> employees) {
+    public void setEmployees(List<Employee> employees) {
         this.employees = employees;
     }
 
-    public Collection<Department> getDepartments() {
+    public List<Department> getDepartments() {
         return departments;
     }
 
-    public void setDepartments(Collection<Department> departments) {
+    public void setDepartments(List<Department> departments) {
         this.departments = departments;
     }
 
-    public EmployeeService getEmployeeService() {
-        return employeeService;
+    public Department getSaveDepartment() {
+        return saveDepartment;
     }
 
-    public void setEmployeeService(EmployeeService employeeService) {
-        this.employeeService = employeeService;
+    public void setSaveDepartment(Department saveDepartment) {
+        this.saveDepartment = saveDepartment;
     }
 
-    public Department getSelectedDepartment() {
-        return selectedDepartment;
+    public Department getUpdateDepartment() {
+        return updateDepartment;
     }
 
-    public void setSelectedDepartment(Department selectedDepartment) {
-        this.selectedDepartment = selectedDepartment;
+    public void setUpdateDepartment(Department updateDepartment) {
+        this.updateDepartment = updateDepartment;
     }
 
-    public long getUpdateId() {
-        return updateId;
+    public long getUpdateEmployeeId() {
+        return updateEmployeeId;
     }
 
-    public void setUpdateId(long updateId) {
-        this.updateId = updateId;
+    public void setUpdateEmployeeId(long updateEmployeeId) {
+        this.updateEmployeeId = updateEmployeeId;
     }
 
-    public long getDeleteId() {
-        return deleteId;
+    public long getDeleteEmployeeId() {
+        return deleteEmployeeId;
     }
 
-    public void setDeleteId(long deleteId) {
-        this.deleteId = deleteId;
+    public void setDeleteEmployeeId(long deleteEmployeeId) {
+        this.deleteEmployeeId = deleteEmployeeId;
+    }
+
+    public long getUpdateDepartmentId() {
+        return updateDepartmentId;
+    }
+
+    public void setUpdateDepartmentId(long updateDepartmentId) {
+        this.updateDepartmentId = updateDepartmentId;
+    }
+
+    public long getDeleteDepartmentId() {
+        return deleteDepartmentId;
+    }
+
+    public void setDeleteDepartmentId(long deleteDepartmentId) {
+        this.deleteDepartmentId = deleteDepartmentId;
     }
 
     public String getSaveFirstName() {
@@ -115,46 +131,78 @@ public class JsfController implements Serializable {
     public void setUpdateLastName(String updateLastName) {
         this.updateLastName = updateLastName;
     }
+
+    public String getSaveName() {
+        return saveName;
+    }
+
+    public void setSaveName(String saveName) {
+        this.saveName = saveName;
+    }
+
+    public String getUpdateName() {
+        return updateName;
+    }
+
+    public void setUpdateName(String updateName) {
+        this.updateName = updateName;
+    }
     //</editor-fold>
 
     @PostConstruct
     public void init() {
-        L.debug("[" + this.getClass().getSimpleName() + "] : init() called");
-        refreshView();
+        L.info("[" + this.getClass().getSimpleName() + "] : init() called");
+        reloadLists();
     }
 
     public void saveEmployee() {
-        L.debug("[" + this.getClass().getSimpleName() + "] : saveEmployee() called");
+        L.info("[" + this.getClass().getSimpleName() + "] : saveEmployee() called");
         Employee employee = new Employee();
         employee.setFirstName(saveFirstName);
         employee.setLastName(saveLastName);
-        employee.setDepartment(selectedDepartment);
+        employee.setDepartment(saveDepartment);
         employeeService.saveEmployee(employee);
-        refreshView();
+        reloadLists();
     }
 
     public void updateEmployee() {
-        L.debug("[" + this.getClass().getSimpleName() + "] : updateEmployee() called");
+        L.info("[" + this.getClass().getSimpleName() + "] : updateEmployee() called");
         Employee employeeData = new Employee();
         employeeData.setFirstName(updateFirstName);
         employeeData.setLastName(updateLastName);
-        employeeData.setDepartment(updateSelectedDepartment);
-        employeeService.updateEmployee(updateId, employeeData);
-        refreshView();
+        employeeData.setDepartment(updateDepartment);
+        employeeService.updateEmployee(updateEmployeeId, employeeData);
+        reloadLists();
     }
 
     public void deleteEmployee() {
-        L.debug("[" + this.getClass().getSimpleName() + "] : deleteEmployee() called");
-        employeeService.deleteEmployee(deleteId);
-        refreshView();
+        L.info("[" + this.getClass().getSimpleName() + "] : deleteEmployee() called");
+        employeeService.deleteEmployee(deleteEmployeeId);
+        reloadLists();
+    }
+    
+    public void saveDepartment() {
+        L.info("[" + this.getClass().getSimpleName() + "] : saveDepartment() called");
+        Department department = new Department(saveName);
+        departmentService.saveDepartment(department);
+        reloadLists();
     }
 
-//    public void departmentChangeListener(ValueChangeEvent event){
-//        Object newValue = event.getNewValue();
-//        
-//    }
-    private void refreshView() {
-        L.debug("[" + this.getClass().getSimpleName() + "] : refresh() called");
+    public void updateDepartment() {
+        L.info("[" + this.getClass().getSimpleName() + "] : updateDepartment() called");
+        Department departmentData = new Department(updateName);
+        departmentService.updateDepartment(updateDepartmentId, departmentData);
+        reloadLists();
+    }
+
+    public void deleteDepartment() {
+        L.info("[" + this.getClass().getSimpleName() + "] : deleteDepartment() called");
+        departmentService.deleteDepartment(deleteDepartmentId);
+        reloadLists();
+    }
+
+    private void reloadLists() {
+        L.info("[" + this.getClass().getSimpleName() + "] : reloadLists() called");
         this.employees = employeeService.getAllEmployees();
         this.departments = departmentService.getAllDepartments();
     }

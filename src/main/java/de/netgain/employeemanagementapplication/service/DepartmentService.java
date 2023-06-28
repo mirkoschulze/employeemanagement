@@ -1,12 +1,12 @@
 package de.netgain.employeemanagementapplication.service;
 
 import de.netgain.employeemanagementapplication.model.Department;
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 public interface DepartmentService {
 
-    public Collection<Department> getAllDepartments();
+    public List<Department> getAllDepartments();
 
     public Optional<Department> getDepartmentById(long id);
 

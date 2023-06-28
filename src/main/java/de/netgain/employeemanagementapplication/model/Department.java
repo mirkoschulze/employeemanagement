@@ -1,7 +1,9 @@
 package de.netgain.employeemanagementapplication.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,11 +23,16 @@ public class Department {
     private long id;
     @Column(name = "name")
     private String name;
-    @OneToMany(targetEntity = Employee.class, mappedBy = "department")
+    @OneToMany(targetEntity = Employee.class, mappedBy = "department", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     private final Collection<Employee> employees;
 
     public Department() {
         employees = new ArrayList<>();
+    }
+
+    public Department(String name) {
+        this();
+        this.name = name;
     }
 
     //<editor-fold defaultstate="collapsed" desc="getter/setter">
@@ -69,18 +76,14 @@ public class Department {
     }
 
     public void removeEmployee(Employee employee) {
-        this.getEmployees().remove(employee);
+        employees.remove(employee);
         employee.setDepartment(null);
-    }
-
-    public String toSimpleName() {
-        return "[" + id + "]" + name;
     }
 
     //<editor-fold defaultstate="collapsed" desc="toString()/hashCode()/equals()">
     @Override
     public String toString() {
-        return "Department{" + "id=" + id + ", name=" + name + ", employees=" + employees + '}';
+        return String.format("%s[id=%d]", getClass().getSimpleName(), getId());
     }
 
     @Override

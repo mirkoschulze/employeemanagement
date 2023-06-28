@@ -1,12 +1,12 @@
 package de.netgain.employeemanagementapplication.service;
 
 import de.netgain.employeemanagementapplication.model.Employee;
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 public interface EmployeeService {
 
-    public Collection<Employee> getAllEmployees();
+    public List<Employee> getAllEmployees();
 
     public Optional<Employee> getEmployeeById(long id);
 
