@@ -25,6 +25,7 @@
         </h:form>
 
         <h:form id="form">
+            <p:growl id="growl" showDetail="true" />
             <p:dataTable value="#{jsfController.employees}" var="employee">
                 <p:column headerText="ID">
                     <h:outputText value="#{employee.id}" />
@@ -41,7 +42,7 @@
             </p:dataTable>
 
             <div>
-                <p:commandButton value ="Anlegen" action ="#{jsfController.saveEmployee}" update="form"/>
+                <p:commandButton value ="Anlegen" action ="#{jsfController.saveEmployee}" update="form, growl"/>
                 <p:inputText value="#{jsfController.saveFirstName}" placeholder="Vorname"/>
                 <p:inputText value="#{jsfController.saveLastName}" placeholder="Nachname"/>
                 <p:selectOneMenu value="#{jsfController.saveDepartment}" converter="omnifaces.SelectItemsConverter">
@@ -54,8 +55,8 @@
             </div>
 
             <div>
-                <p:commandButton value ="Aktualisieren" action ="#{jsfController.updateEmployee}" update="form"/>
-                <p:inputText label="ID" value="#{jsfController.updateEmployeeId}" placeholder="ID"/>
+                <p:commandButton value ="Aktualisieren" action ="#{jsfController.updateEmployee}" update="form, growl"/>
+                <p:inputText value="#{jsfController.updateEmployeeId}" placeholder="ID"/>
                 <p:inputText value="#{jsfController.updateFirstName}" placeholder="Vorname"/>
                 <p:inputText value="#{jsfController.updateLastName}" placeholder="Nachname"/>
                 <p:selectOneMenu value="#{jsfController.updateDepartment}" converter="omnifaces.SelectItemsConverter">
@@ -70,7 +71,7 @@
                 <p:commandButton value="Löschen" action="#{jsfController.deleteEmployee}" update="form"/>
                 <p:inputText value="#{jsfController.deleteEmployeeId}" placeholder="ID"/>
             </div>
-            
+
             <p:dataTable value="#{jsfController.departments}" var="department">
                 <p:column headerText="ID">
                     <h:outputText value="#{department.id}" />
@@ -79,18 +80,18 @@
                     <h:outputText value="#{department.name}" />
                 </p:column>
             </p:dataTable>
-            
+
             <div>
-                <p:commandButton value ="Anlegen" action ="#{jsfController.saveDepartment}" update="form"/>
+                <p:commandButton value ="Anlegen" action ="#{jsfController.saveDepartment}" update="form, growl"/>
                 <p:inputText value="#{jsfController.saveName}" placeholder="Bezeichnung"/>
             </div>
 
             <div>
-                <p:commandButton value ="Aktualisieren" action ="#{jsfController.updateDepartment}" update="form"/>
+                <p:commandButton value ="Aktualisieren" action ="#{jsfController.updateDepartment}" update="form, growl"/>
                 <p:inputText label="ID" value="#{jsfController.updateDepartmentId}" placeholder="ID"/>
                 <p:inputText value="#{jsfController.updateName}" placeholder="Bezeichung"/>
             </div>
-            
+
             <div>
                 <p:commandButton value="Löschen" action="#{jsfController.deleteDepartment}" update="form"/>
                 <p:inputText value="#{jsfController.deleteDepartmentId}" placeholder="ID"/>

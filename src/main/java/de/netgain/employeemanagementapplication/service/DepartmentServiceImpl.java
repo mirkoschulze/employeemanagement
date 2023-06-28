@@ -42,7 +42,7 @@ public class DepartmentServiceImpl implements DepartmentService{
         L.info("[" + this.getClass().getSimpleName() + "] : updateDepartment(long id, Department departmentData) called with param = " + id + "; " + departmentData);
         Optional<Department> department = departmentRepository.findById(id);
         department.ifPresentOrElse(d -> {
-            d.setName(departmentData.getName());
+            if(!departmentData.getName().isBlank()) d.setName(departmentData.getName());
             departmentRepository.save(d);
             L.info("[" + this.getClass().getSimpleName() + "] : Department updated");
         }, () -> L.info("[" + this.getClass().getSimpleName() + "] : Department not updated"));

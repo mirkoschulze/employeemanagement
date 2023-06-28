@@ -24,7 +24,7 @@ public class EmployeeRestController {
     @Autowired
     private EmployeeService employeeService;
 
-    @RequestMapping(value = "/employees", method = RequestMethod.GET)
+    @GetMapping(value = "/employees")
     public Collection<Employee> readEmployees() {
         L.info("[" + this.getClass().getSimpleName() + "] : readEmployees() called");
         return employeeService.getAllEmployees();

@@ -1,10 +1,13 @@
 package de.netgain.employeemanagementapplication.controller;
 
+import de.netgain.employeemanagementapplication.Utils;
 import de.netgain.employeemanagementapplication.model.Department;
 import de.netgain.employeemanagementapplication.model.Employee;
 import de.netgain.employeemanagementapplication.service.DepartmentService;
 import de.netgain.employeemanagementapplication.service.EmployeeService;
 import jakarta.annotation.PostConstruct;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import java.io.Serializable;
@@ -18,6 +21,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class JsfController implements Serializable {
 
     private static final Logger L = LoggerFactory.getLogger(JsfController.class);
+
+    private static final String SUMMARY = "Name nicht zulässig";
+    private static final String DETAIL = "Geben Sie einen gültigen Namen an.\n\n(Ein Großbuchstabe gefolgt von Kleinbuchstaben)";
 
     @Autowired
     private EmployeeService employeeService;
@@ -157,22 +163,30 @@ public class JsfController implements Serializable {
 
     public void saveEmployee() {
         L.info("[" + this.getClass().getSimpleName() + "] : saveEmployee() called");
-        Employee employee = new Employee();
-        employee.setFirstName(saveFirstName);
-        employee.setLastName(saveLastName);
-        employee.setDepartment(saveDepartment);
-        employeeService.saveEmployee(employee);
-        reloadLists();
+        if (Utils.validateName(saveFirstName) && Utils.validateName(saveLastName)) {
+            Employee employee = new Employee();
+            employee.setFirstName(saveFirstName);
+            employee.setLastName(saveLastName);
+            employee.setDepartment(saveDepartment);
+            employeeService.saveEmployee(employee);
+            reloadLists();
+        } else {
+            addMessage(FacesMessage.SEVERITY_ERROR, SUMMARY, DETAIL);
+        }
     }
 
     public void updateEmployee() {
         L.info("[" + this.getClass().getSimpleName() + "] : updateEmployee() called");
-        Employee employeeData = new Employee();
-        employeeData.setFirstName(updateFirstName);
-        employeeData.setLastName(updateLastName);
-        employeeData.setDepartment(updateDepartment);
-        employeeService.updateEmployee(updateEmployeeId, employeeData);
-        reloadLists();
+        if (Utils.validateName(updateFirstName) && Utils.validateName(updateLastName)) {
+            Employee employeeData = new Employee();
+            employeeData.setFirstName(updateFirstName);
+            employeeData.setLastName(updateLastName);
+            employeeData.setDepartment(updateDepartment);
+            employeeService.updateEmployee(updateEmployeeId, employeeData);
+            reloadLists();
+        } else {
+            addMessage(FacesMessage.SEVERITY_ERROR, SUMMARY, DETAIL);
+        }
     }
 
     public void deleteEmployee() {
@@ -180,25 +194,37 @@ public class JsfController implements Serializable {
         employeeService.deleteEmployee(deleteEmployeeId);
         reloadLists();
     }
-    
+
     public void saveDepartment() {
         L.info("[" + this.getClass().getSimpleName() + "] : saveDepartment() called");
-        Department department = new Department(saveName);
-        departmentService.saveDepartment(department);
-        reloadLists();
+        if (Utils.validateName(saveName)) {
+            Department department = new Department(saveName);
+            departmentService.saveDepartment(department);
+            reloadLists();
+        } else {
+            addMessage(FacesMessage.SEVERITY_ERROR, SUMMARY, DETAIL);
+        }
     }
 
     public void updateDepartment() {
         L.info("[" + this.getClass().getSimpleName() + "] : updateDepartment() called");
         Department departmentData = new Department(updateName);
-        departmentService.updateDepartment(updateDepartmentId, departmentData);
-        reloadLists();
+        if (Utils.validateName(updateName)) {
+            departmentService.updateDepartment(updateDepartmentId, departmentData);
+            reloadLists();
+        } else {
+            addMessage(FacesMessage.SEVERITY_ERROR, SUMMARY, DETAIL);
+        }
     }
 
     public void deleteDepartment() {
         L.info("[" + this.getClass().getSimpleName() + "] : deleteDepartment() called");
         departmentService.deleteDepartment(deleteDepartmentId);
         reloadLists();
+    }
+
+    private void addMessage(FacesMessage.Severity severity, String summary, String detail) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
     }
 
     private void reloadLists() {

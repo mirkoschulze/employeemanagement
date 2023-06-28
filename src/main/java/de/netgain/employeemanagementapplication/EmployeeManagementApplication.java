@@ -33,7 +33,6 @@ public class EmployeeManagementApplication extends SpringBootServletInitializer 
         servletContext.setInitParameter("com.sun.faces.forceLoadConfiguration", Boolean.TRUE.toString());
     }
 
-    //TODO raus
     @Bean
     public CommandLineRunner departments(DepartmentRepository depRepo, EmployeeRepository empRepo) {
         return (args) -> {
@@ -52,10 +51,4 @@ public class EmployeeManagementApplication extends SpringBootServletInitializer 
         };
     }
 
-    @Bean
-    public CommandLineRunner employees(EmployeeRepository repo) {
-        return (args) -> {
-
-        };
-    }
 }
