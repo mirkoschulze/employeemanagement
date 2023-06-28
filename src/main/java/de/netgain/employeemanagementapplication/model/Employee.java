@@ -1,8 +1,10 @@
 package de.netgain.employeemanagementapplication.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,7 +25,8 @@ public class Employee {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @ManyToOne
     @JoinColumn(name = "department_id", referencedColumnName = "department_id")
     private Department department;
 
@@ -78,10 +81,6 @@ public class Employee {
         this.department = department;
     }
     //</editor-fold>
-
-    public String toSimpleName() {
-        return "[" + id + "]" + firstName + " " + lastName + ", " + department.getName();
-    }
 
     //<editor-fold defaultstate="collapsed" desc="toString()/hashCode()/equals()">
     @Override

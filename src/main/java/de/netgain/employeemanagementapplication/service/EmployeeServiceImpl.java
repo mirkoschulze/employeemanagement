@@ -42,9 +42,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         L.info("[" + this.getClass().getSimpleName() + "] : updateEmployee(long id, Employee employeeData) called with param = " + id + "; " + employeeData);
         Optional<Employee> employee = employeeRepository.findById(id);
         employee.ifPresentOrElse(e -> {
-            if(!employeeData.getFirstName().isBlank())e.setFirstName(employeeData.getFirstName());
-            if(!employeeData.getLastName().isBlank())e.setLastName(employeeData.getLastName());
-            e.setDepartment(employeeData.getDepartment());
+            if(!employeeData.getFirstName().isBlank()) e.setFirstName(employeeData.getFirstName());
+            if(!employeeData.getLastName().isBlank()) e.setLastName(employeeData.getLastName());
+            if(employeeData.getDepartment() != null && e.getDepartment() == null) e.setDepartment(employeeData.getDepartment());
             employeeRepository.save(e);
             L.info("[" + this.getClass().getSimpleName() + "] : employee updated");
         }, () -> L.info("[" + this.getClass().getSimpleName() + "] : employee not updated"));
