@@ -44,7 +44,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.ifPresentOrElse(e -> {
             if(!employeeData.getFirstName().isBlank()) e.setFirstName(employeeData.getFirstName());
             if(!employeeData.getLastName().isBlank()) e.setLastName(employeeData.getLastName());
-            if(employeeData.getDepartment() != null && e.getDepartment() == null) e.setDepartment(employeeData.getDepartment());
+            if(employeeData.getDepartment() != null && e.getDepartment() != null) e.setDepartment(employeeData.getDepartment());
             employeeRepository.save(e);
             L.info("[" + this.getClass().getSimpleName() + "] : employee updated");
         }, () -> L.info("[" + this.getClass().getSimpleName() + "] : employee not updated"));
