@@ -12,14 +12,14 @@ import java.util.Optional;
  */
 public interface EmployeeService {
 
-    public List<Employee> getAllEmployees();
+    List<Employee> getAllEmployees();
 
-    public Optional<Employee> getEmployeeById(long id);
+    Optional<Employee> getEmployeeById(long id);
 
-    public Employee saveEmployee(Employee employee);
+    Employee saveEmployee(Employee employee);
 
-    public Optional<Employee> updateEmployee(long id, Employee employeeData);
+    Optional<Employee> updateEmployee(long id, Employee employeeData);
 
-    public void deleteEmployee(long id);
+    void deleteEmployee(long id);
 
 }

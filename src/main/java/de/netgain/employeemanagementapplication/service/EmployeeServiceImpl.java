@@ -1,5 +1,6 @@
 package de.netgain.employeemanagementapplication.service;
 
+import de.netgain.employeemanagementapplication.model.Department;
 import de.netgain.employeemanagementapplication.model.Employee;
 import de.netgain.employeemanagementapplication.repository.EmployeeRepository;
 import java.util.List;
@@ -22,53 +23,62 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<Employee> getAllEmployees() {
-        L.info("[" + this.getClass().getSimpleName() + "] : getAllEmployees() called");
+        L.debug("[{}] : getAllEmployees() called", this.getClass().getSimpleName());
         List<Employee> employees = employeeRepository.findAll();
-        L.info("[" + this.getClass().getSimpleName() + "] : returning Collection<Employee> employees = " + employees.toString());
+        L.debug("[{}] : returning List<Employee> employees = {}", this.getClass().getSimpleName(), employees.toString());
         return employees;
     }
 
     @Override
     public Optional<Employee> getEmployeeById(long id) {
-        L.info("[" + this.getClass().getSimpleName() + "] : getEmployeeById(long id) called with param = " + id);
+        L.debug("[{}] : getEmployeeById(long id) called with param = {}", this.getClass().getSimpleName(), id);
         Optional<Employee> employee = employeeRepository.findById(id);
-        L.info("[" + this.getClass().getSimpleName() + "] : returning Optional<Employee> employee = " + employee.toString());
+        L.debug("[{}] : returning Optional<Employee> employee = {}", this.getClass().getSimpleName(), employee.toString());
         return employee;
     }
 
     @Override
     public Employee saveEmployee(Employee employee) {
-        L.info("[" + this.getClass().getSimpleName() + "] : saveEmployee(Employee employee) called with param = " + employee);
+        L.debug("[{}] : saveEmployee(Employee employee) called with param = {}", this.getClass().getSimpleName(), employee.toString());
         return employeeRepository.save(employee);
     }
 
     @Override
     public Optional<Employee> updateEmployee(long id, Employee employeeData) {
-        L.info("[" + this.getClass().getSimpleName() + "] : updateEmployee(long id, Employee employeeData) called with param = " + id + "; " + employeeData);
+        L.debug("[{}] : updateEmployee(long id, Employee employeeData) called with param =  {}; {}", this.getClass().getSimpleName(), id, employeeData.toString());
         Optional<Employee> employee = employeeRepository.findById(id);
         employee.ifPresentOrElse(e -> {
-            if (!employeeData.getFirstName().isBlank()) {
+            if (employeeData.getFirstName() != null && !employeeData.getFirstName().isBlank()) {
                 e.setFirstName(employeeData.getFirstName());
             }
-            if (!employeeData.getLastName().isBlank()) {
+            if (employeeData.getLastName() != null && !employeeData.getLastName().isBlank()) {
                 e.setLastName(employeeData.getLastName());
             }
             if (employeeData.getDepartment() != null && e.getDepartment() != null) {
                 e.setDepartment(employeeData.getDepartment());
             }
             employeeRepository.save(e);
-            L.info("[" + this.getClass().getSimpleName() + "] : employee updated");
-        }, () -> L.info("[" + this.getClass().getSimpleName() + "] : employee not updated"));
-        L.info("[" + this.getClass().getSimpleName() + "] : returning Optional<Employee> employee = " + employee.toString());
+            L.debug("[{}] : employee updated to {}", this.getClass().getSimpleName(), e.toString());
+        }, () -> L.debug("[{}] : employee not updated", this.getClass().getSimpleName()));
+        L.debug("[{}] : returning Optional<Employee> employee = {}", this.getClass().getSimpleName(), employee.toString());
         return employee;
     }
 
     @Override
     public void deleteEmployee(long id) {
-        L.info("[" + this.getClass().getSimpleName() + "] : deleteEmployee(long id) called with param = " + id);
+        L.debug("[{}] : deleteEmployee(long id) called with param = {}", this.getClass().getSimpleName(), id);
         Optional<Employee> employee = employeeRepository.findById(id);
-        employee.ifPresent(e -> e.getDepartment().removeEmployee(e));
-        employeeRepository.deleteById(id);
+        employee.ifPresentOrElse(e -> {
+            Department d = e.getDepartment();
+            if (d != null) {
+                d.removeEmployee(e);
+                L.debug("[{}] : removed employee {} from department {}",
+                        this.getClass().getSimpleName(), e.toString(), d.toString());
+            }
+            employeeRepository.deleteById(id);
+            L.debug("[{}] : employee deleted", this.getClass().getSimpleName());
+        }, () -> L.debug("[{}] : employee not deleted", this.getClass().getSimpleName()));
+
     }
 
 }

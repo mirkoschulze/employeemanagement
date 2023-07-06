@@ -26,7 +26,7 @@ public class Utils {
      * @return true if the submitted name is in a valid state
      */
     public static boolean validateName(String name) {
-        L.info("[Utils] : validateName(String name) called with param = " + name);
+        L.debug("[{}] : validateName(String name) called with param = {}",Utils.class.getSimpleName(),name);
         return Pattern.matches("[A-Z]{1}[a-z]+|\\w{0}", name);
     }
 

@@ -2,7 +2,9 @@ package de.netgain.employeemanagementapplication.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,6 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.util.Objects;
+import org.hibernate.annotations.OptimisticLocking;
 
 /**
  * Representation of company employee.
@@ -19,6 +22,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "employees")
+@OptimisticLocking
 public class Employee {
 
     @Id
@@ -33,14 +37,26 @@ public class Employee {
     @ManyToOne
     @JoinColumn(name = "department_id", referencedColumnName = "department_id")
     private Department department;
+    @Embedded
+    @AttributeOverride(name = "houseNumber", column = @Column(name = " house_number"))
+    private Address address;
 
     public Employee() {
     }
 
-    public Employee(String firstName, String lastName, Department department) {
+    public Employee(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public Employee(String firstName, String lastName, Department department) {
+        this(firstName, lastName);
         this.setDepartment(department);
+    }
+
+    public Employee(String firstName, String lastName, Department department, Address address) {
+        this(firstName, lastName, department);
+        this.address = address;
     }
 
     //<editor-fold defaultstate="collapsed" desc="getter/setter">
@@ -84,12 +100,31 @@ public class Employee {
         }
         this.department = department;
     }
-    //</editor-fold>
 
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    //</editor-fold>
+    //TODO address
     //<editor-fold defaultstate="collapsed" desc="toString()/hashCode()/equals()">
     @Override
     public String toString() {
-        return String.format("%s[id=%d]", getClass().getSimpleName(), getId());
+        StringBuilder sb = new StringBuilder(String.format("%s[id=%d] %s %s", this.getClass().getSimpleName(),
+                this.getId(), this.getFirstName(), this.getLastName()));
+        if (this.department != null) {
+            sb.append(", ");
+            sb.append(this.getDepartment().toString());
+        }
+        if (this.address != null) {
+            sb.append(", ");
+            sb.append(this.address.toString());
+        }
+        return sb.toString();
     }
 
     @Override

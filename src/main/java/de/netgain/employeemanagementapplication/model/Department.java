@@ -2,8 +2,10 @@ package de.netgain.employeemanagementapplication.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -12,8 +14,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
+import org.hibernate.annotations.OptimisticLocking;
 
 /**
  * Representation of a company department.
@@ -22,6 +25,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "departments")
+@OptimisticLocking
 public class Department {
 
     @Id
@@ -31,8 +35,13 @@ public class Department {
     @Column(name = "name")
     private String name;
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    @OneToMany(targetEntity = Employee.class, mappedBy = "department", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
-    private final Collection<Employee> employees;
+    @OneToMany(targetEntity = Employee.class, mappedBy = "department", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH}, fetch = FetchType.EAGER)
+    private final List<Employee> employees;
+    @Embedded
+//    @AttributeOverrides(value = {@AttributeOverride
+//        (name = "houseNumber"), column = @Column(name = "house_number")})
+    @AttributeOverride(name = "houseNumber", column = @Column(name = " house_number"))
+    private Address address;
 
     public Department() {
         employees = new ArrayList<>();
@@ -41,6 +50,11 @@ public class Department {
     public Department(String name) {
         this();
         this.name = name;
+    }
+
+    public Department(String name, Address address) {
+        this(name);
+        this.address = address;
     }
 
     //<editor-fold defaultstate="collapsed" desc="getter/setter">
@@ -60,11 +74,11 @@ public class Department {
         this.name = name;
     }
 
-    public Collection<Employee> getEmployees() {
+    public List<Employee> getEmployees() {
         return employees;
     }
 
-    public void setEmployees(Collection<Employee> employees) {
+    public void setEmployees(List<Employee> employees) {
         if (employees != null) {
             for (Employee employee : this.employees) {
                 this.removeEmployee(employee);
@@ -74,8 +88,16 @@ public class Department {
             }
         }
     }
-    //</editor-fold>
 
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    //</editor-fold>
     public void addEmployee(Employee employee) {
         if (employee == null) {
             return;
@@ -88,10 +110,11 @@ public class Department {
         employee.setDepartment(null);
     }
 
+    //TODO add address
     //<editor-fold defaultstate="collapsed" desc="toString()/hashCode()/equals()">
     @Override
     public String toString() {
-        return String.format("%s[id=%d]", getClass().getSimpleName(), getId());
+        return String.format("%s[id=%d] %s", getClass().getSimpleName(), getId(), getName());
     }
 
     @Override

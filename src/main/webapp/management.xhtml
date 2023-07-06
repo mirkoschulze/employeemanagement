@@ -9,8 +9,9 @@
         <title>Employee Management</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
-
-
+    
+    <!--TODO selection mode + selection setzt werte für aktalisieren-->
+    <!--TODO aktualisieren kaputt danach nochmal checken ob tomcat embed dependency notwendig ist-->
     <h:body>
 
         <h:form>
@@ -26,7 +27,9 @@
 
         <h:form id="form">
             <p:growl id="growl" showDetail="true" />
-            <p:dataTable value="#{jsfController.employees}" var="employee">
+            <p:outputLabel value="Mitarbeiter"/>
+            <p:dataTable value="#{jsfController.employees}" var="employee"  >
+                         <!--selectionMode="single" selection="#{jsfController.selectedEmployee}" onRowClick="#{jsfController.doStuff}" rowKey="#{employee.id}"-->
                 <p:column headerText="ID">
                     <h:outputText value="#{employee.id}" />
                 </p:column>
@@ -39,9 +42,24 @@
                 <p:column headerText="Abteilung">
                     <h:outputText value="#{employee.department.name}" />
                 </p:column>
+                <p:column headerText="Straße">
+                    <h:outputText value="#{employee.address.street}" />
+                </p:column>
+                <p:column headerText="Hausnr.">
+                    <h:outputText value="#{employee.address.houseNumber}" />
+                </p:column>
+                <p:column headerText="Ort">
+                    <h:outputText value="#{employee.address.city}" />
+                </p:column>
+                <p:column headerText="Stadt">
+                    <h:outputText value="#{employee.address.city}" />
+                </p:column>
+                <p:column headerText="Land">
+                    <h:outputText value="#{employee.address.country}" />
+                </p:column>
             </p:dataTable>
 
-            <div>
+             <div class="ui-inputgroup">
                 <p:commandButton value ="Anlegen" action ="#{jsfController.saveEmployee}" update="form, growl"/>
                 <p:inputText value="#{jsfController.saveFirstName}" placeholder="Vorname"/>
                 <p:inputText value="#{jsfController.saveLastName}" placeholder="Nachname"/>
@@ -53,8 +71,7 @@
                     </p:column>
                 </p:selectOneMenu>
             </div>
-
-            <div>
+             <div class="ui-inputgroup">
                 <p:commandButton value ="Aktualisieren" action ="#{jsfController.updateEmployee}" update="form, growl"/>
                 <p:inputText value="#{jsfController.updateEmployeeId}" placeholder="ID"/>
                 <p:inputText value="#{jsfController.updateFirstName}" placeholder="Vorname"/>
@@ -67,11 +84,12 @@
                     </p:column>
                 </p:selectOneMenu>
             </div>
-            <div>
+             <div class="ui-inputgroup">
                 <p:commandButton value="Löschen" action="#{jsfController.deleteEmployee}" update="form"/>
                 <p:inputText value="#{jsfController.deleteEmployeeId}" placeholder="ID"/>
             </div>
 
+            <p:outputLabel value="Abteilungen"/>
             <p:dataTable value="#{jsfController.departments}" var="department">
                 <p:column headerText="ID">
                     <h:outputText value="#{department.id}" />
@@ -79,20 +97,33 @@
                 <p:column headerText="Vorname">
                     <h:outputText value="#{department.name}" />
                 </p:column>
+                <p:column headerText="Straße">
+                    <h:outputText value="#{department.address.street}" />
+                </p:column>
+                <p:column headerText="Hausnr.">
+                    <h:outputText value="#{department.address.houseNumber}" />
+                </p:column>
+                <p:column headerText="Ort">
+                    <h:outputText value="#{department.address.city}" />
+                </p:column>
+                <p:column headerText="Stadt">
+                    <h:outputText value="#{department.address.city}" />
+                </p:column>
+                <p:column headerText="Land">
+                    <h:outputText value="#{department.address.country}" />
+                </p:column>
             </p:dataTable>
 
-            <div>
+             <div class="ui-inputgroup">
                 <p:commandButton value ="Anlegen" action ="#{jsfController.saveDepartment}" update="form, growl"/>
                 <p:inputText value="#{jsfController.saveName}" placeholder="Bezeichnung"/>
             </div>
-
-            <div>
+             <div class="ui-inputgroup">
                 <p:commandButton value ="Aktualisieren" action ="#{jsfController.updateDepartment}" update="form, growl"/>
                 <p:inputText label="ID" value="#{jsfController.updateDepartmentId}" placeholder="ID"/>
                 <p:inputText value="#{jsfController.updateName}" placeholder="Bezeichung"/>
             </div>
-
-            <div>
+             <div class="ui-inputgroup">
                 <p:commandButton value="Löschen" action="#{jsfController.deleteDepartment}" update="form"/>
                 <p:inputText value="#{jsfController.deleteDepartmentId}" placeholder="ID"/>
             </div>

@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>de.netgain</groupId>
-    <artifactId>EmployeeManagementApplication</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>EmployeeManagementApplication</name>
-    <description>Introduction to Spring, MVC, JPA, REST</description>
+    <artifactId>employee-management-application</artifactId>
+    <version>1.1-SNAPSHOT</version>
+    <name>Employee Management Application</name>
+    <description>Introduction to Spring, MVC, JSF, JPA, REST</description>
     <properties>
         <java.version>17</java.version>
     </properties>
@@ -30,24 +30,20 @@
     </dependencyManagement>
     
     <dependencies>
-        <!--spring-->
+        <!--jpa-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-rest</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <!--jpa-->
-        <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
             <scope>runtime</scope>
+        </dependency>
+        <!--rest-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <!--jsf-->
         <dependency>
@@ -67,20 +63,21 @@
             <groupId>org.omnifaces</groupId>
             <artifactId>omnifaces</artifactId>
         </dependency>
-        <!--misc-->
         <dependency>
             <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
+            <artifactId>commons-dbcp2</artifactId>
+        </dependency>
+        <!--misc-->
+        <dependency>
+            <groupId>checkstyle</groupId>
+            <artifactId>checkstyle</artifactId>
+            <version>5.0</version>
         </dependency>
         <!--testing-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
         </dependency>
     </dependencies>
 
@@ -89,6 +86,16 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.5.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.6.0</version>
             </plugin>
         </plugins>
     </build>

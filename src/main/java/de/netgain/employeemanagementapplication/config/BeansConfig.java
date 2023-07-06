@@ -1,4 +1,4 @@
-package de.netgain.employeemanagementapplication;
+package de.netgain.employeemanagementapplication.config;
 
 import de.netgain.employeemanagementapplication.service.DepartmentService;
 import de.netgain.employeemanagementapplication.service.DepartmentServiceImpl;

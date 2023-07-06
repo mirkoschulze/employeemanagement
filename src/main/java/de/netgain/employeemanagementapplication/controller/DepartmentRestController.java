@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -22,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author MirkoSchulze
  */
 @RestController
+@RequestMapping(value = "/departments")
 public class DepartmentRestController {
 
     private static final Logger L = LoggerFactory.getLogger(DepartmentRestController.class);
@@ -29,33 +29,34 @@ public class DepartmentRestController {
     @Autowired
     private DepartmentService departmentService;
 
-    @RequestMapping(value = "/departments", method = RequestMethod.GET)
+    //TODO javadoc
+    @GetMapping
     public Collection<Department> readDepartments() {
-        L.info("[" + this.getClass().getSimpleName() + "] : readDepartments() called");
+        L.debug("[" + this.getClass().getSimpleName() + "] : readDepartments() called");
         return departmentService.getAllDepartments();
     }
 
-    @GetMapping(value = "/departments/{depId}")
+    @GetMapping(value = "/{depId}")
     public Department readDepartment(@PathVariable(value = "depId") long id) {
-        L.info("[" + this.getClass().getSimpleName() + "] : readDepartment(long id) called with param = " + id);
+        L.debug("[" + this.getClass().getSimpleName() + "] : readDepartment(long id) called with param = " + id);
         return departmentService.getDepartmentById(id).get();
     }
 
-    @PostMapping(value = "/departments")
-    public Department saveDepartment(@RequestBody Department deployee) {
-        L.info("[" + this.getClass().getSimpleName() + "] : saveDepartment(Department department) called with param = " + deployee);
-        return departmentService.saveDepartment(deployee);
+    @PostMapping
+    public Department saveDepartment(@RequestBody Department department) {
+        L.debug("[" + this.getClass().getSimpleName() + "] : saveDepartment(Department department) called with param = " + department);
+        return departmentService.saveDepartment(department);
     }
 
-    @PutMapping(value = "/departments/{depId}")
-    public Department updateDepartment(@PathVariable(value = "depId") long id, @RequestBody Department deployeeData) {
-        L.info("[" + this.getClass().getSimpleName() + "] : updateDepartmen(long id, Department departmentData) called with param = " + id + ", " + deployeeData);
-        return departmentService.updateDepartment(id, deployeeData).get();
+    @PutMapping(value = "/{depId}")
+    public Department updateDepartment(@PathVariable(value = "depId") long id, @RequestBody Department departmentData) {
+        L.debug("[" + this.getClass().getSimpleName() + "] : updateDepartmen(long id, Department departmentData) called with param = " + id + ", " + departmentData);
+        return departmentService.updateDepartment(id, departmentData).get();
     }
 
-    @DeleteMapping(value = "/departments/{depId}")
+    @DeleteMapping(value = "/{depId}")
     public void deleteDepartment(@PathVariable(value = "depId") long id) {
-        L.info("[" + this.getClass().getSimpleName() + "] : deleteDepartment(long id) called with param = " + id);
+        L.debug("[" + this.getClass().getSimpleName() + "] : deleteDepartment(long id) called with param = " + id);
         departmentService.deleteDepartment(id);
     }
 
