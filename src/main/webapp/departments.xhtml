@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Employee Management</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+
+    <h:body>
+
+        <h:form>
+
+            <p:tabMenu activeIndex="#{param.i}">
+                <p:menuitem value="Startseite" outcome="welcome.xhtml">
+                    <f:param name="i" value="0" />
+                </p:menuitem>
+                <p:menuitem value="Mitarbeiter" outcome="employees.xhtml">
+                    <f:param name="i" value="1" />
+                </p:menuitem>
+                <p:menuitem value="Abteilungen" outcome="departments.xhtml">
+                    <f:param name="i" value="2" />
+                </p:menuitem>
+            </p:tabMenu> 
+
+        </h:form>
+
+        <h:form id="form">
+
+            <p:growl id="growl" showDetail="true" />
+
+            <div class="ui-inputgroup">
+                <p:commandButton value ="Anlegen" action ="#{jsfController.saveDepartment}" update="form, growl"/>
+                <p:inputText value="#{jsfController.saveName}" placeholder="Bezeichnung"/>
+            </div>
+            <div class="ui-inputgroup">
+                <p:commandButton value ="Aktualisieren" action ="#{jsfController.updateDepartment}" update="form, growl"/>
+                <p:inputText label="ID" value="#{jsfController.updateDepartmentId}" placeholder="ID"/>
+                <p:inputText value="#{jsfController.updateName}" placeholder="Bezeichung"/>
+            </div>
+            <div class="ui-inputgroup">
+                <p:commandButton value="Löschen" action="#{jsfController.deleteDepartment}" update="form"/>
+                <p:inputText value="#{jsfController.deleteDepartmentId}" placeholder="ID"/>
+            </div>
+
+            <p:dataTable value="#{jsfController.departments}" var="department" showGridlines="true"
+                         rows="10" paginator="true" paginatorPosition="both"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records">
+                <p:column headerText="ID">
+                    <h:outputText value="#{department.id}" />
+                </p:column>
+                <p:column headerText="Vorname">
+                    <h:outputText value="#{department.name}" />
+                </p:column>
+                <p:column headerText="Straße">
+                    <h:outputText value="#{department.address.street}" />
+                </p:column>
+                <p:column headerText="Hausnr.">
+                    <h:outputText value="#{department.address.houseNumber}" />
+                </p:column>
+                <p:column headerText="Ort">
+                    <h:outputText value="#{department.address.city}" />
+                </p:column>
+                <p:column headerText="Stadt">
+                    <h:outputText value="#{department.address.city}" />
+                </p:column>
+                <p:column headerText="Land">
+                    <h:outputText value="#{department.address.country}" />
+                </p:column>
+            </p:dataTable>
+
+        </h:form>
+
+    </h:body>
+
+</html>

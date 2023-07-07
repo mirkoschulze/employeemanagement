@@ -63,10 +63,10 @@
             <groupId>org.omnifaces</groupId>
             <artifactId>omnifaces</artifactId>
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-dbcp2</artifactId>
-        </dependency>
+        </dependency>-->
         <!--misc-->
         <dependency>
             <groupId>checkstyle</groupId>

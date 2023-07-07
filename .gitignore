@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+nbactions.xml
+*.log
+*.log
+*.log
+nbactions.xml

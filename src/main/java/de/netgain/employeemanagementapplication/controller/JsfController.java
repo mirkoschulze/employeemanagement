@@ -8,25 +8,22 @@ import de.netgain.employeemanagementapplication.service.EmployeeService;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Named;
 import java.io.Serializable;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.jsf.el.SpringBeanFacesELResolver;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * MVC controller class, contains the logic for the GUI.
  *
  * @author MirkoSchulze
  */
-@Named("jsfController")
-@ViewScoped
+@Component(value = "jsfController")
+@Scope(value = "view")
 public class JsfController implements Serializable {
-    //TODO change value listener für reload anch rest?
-    //TODO growl bei falscheingaben
 
     private static final Logger L = LoggerFactory.getLogger(JsfController.class);
 
@@ -43,32 +40,15 @@ public class JsfController implements Serializable {
 
     private List<Department> departments;
 
-    private Employee selectedEmployee;
-
-    private Department saveDepartment, updateDepartment, selectedDepartment;
+    private Department saveDepartment, updateDepartment;
 
     private long updateEmployeeId, deleteEmployeeId, updateDepartmentId, deleteDepartmentId;
 
     private String saveFirstName, saveLastName, updateFirstName, updateLastName, saveName, updateName;
 
-    //TODO sortieren
+    private boolean isEntityPresent;
+
     //<editor-fold defaultstate="collapsed" desc="getter/setter">
-    public Employee getSelectedEmployee() {
-        return selectedEmployee;
-    }
-
-    public void setSelectedEmployee(Employee selectedEmployee) {
-        this.selectedEmployee = selectedEmployee;
-    }
-
-    public Department getSelectedDepartment() {
-        return selectedDepartment;
-    }
-
-    public void setSelectedDepartment(Department selectedDepartment) {
-        this.selectedDepartment = selectedDepartment;
-    }
-
     public List<Employee> getEmployees() {
         return employees;
     }
@@ -182,9 +162,6 @@ public class JsfController implements Serializable {
     }
     //</editor-fold>
 
-    public JsfController() {
-    }
-
     @PostConstruct
     public void init() {
         L.debug("[{}] : init() called", this.getClass().getSimpleName());
@@ -208,6 +185,7 @@ public class JsfController implements Serializable {
         }
     }
 
+    //TODO doppelt gemoppelt saveOrUodate
     /**
      * Update an {@link Employee} in the database.
      */
