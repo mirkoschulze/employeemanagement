@@ -10,20 +10,27 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
 
-<!--TODO mitarbeiter / abteilungen getrennt, paginator, buttons in menu, reset values, ID placeholder, custom query -> result in dialog-->
+<!--TODO , reset values, ID placeholder, custom query -> result in dialog, selection-->
     <h:body>
+        
         <h:form>
+            
             <p:tabMenu activeIndex="#{param.i}">
                 <p:menuitem value="Startseite" outcome="welcome.xhtml">
                     <f:param name="i" value="0" />
                 </p:menuitem>
-                <p:menuitem value="Verwaltung" outcome="management.xhtml">
+                <p:menuitem value="Mitarbeiter" outcome="employees.xhtml">
                     <f:param name="i" value="1" />
+                </p:menuitem>
+                <p:menuitem value="Abteilungen" outcome="departments.xhtml">
+                    <f:param name="i" value="2" />
                 </p:menuitem>
             </p:tabMenu>
 
             <p:graphicImage name="img/Employee-Management-System.webp" style="float: left; margin-right: 1%; margin-bottom: 1%; width: 75%; height: 75%" />
+            
         </h:form>
+        
     </h:body>
 
 </html>

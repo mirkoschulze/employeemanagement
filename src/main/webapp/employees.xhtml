@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Employee Management</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+
+    <h:body>
+
+        <h:form>
+
+            <p:tabMenu activeIndex="#{param.i}">
+                <p:menuitem value="Startseite" outcome="welcome.xhtml">
+                    <f:param name="i" value="0" />
+                </p:menuitem>
+                <p:menuitem value="Mitarbeiter" outcome="employees.xhtml">
+                    <f:param name="i" value="1" />
+                </p:menuitem>
+                <p:menuitem value="Abteilungen" outcome="departments.xhtml">
+                    <f:param name="i" value="2" />
+                </p:menuitem>
+            </p:tabMenu>
+
+        </h:form>
+
+        <h:form id="form">
+
+            <p:growl id="growl" showDetail="true" />
+
+            <div class="ui-inputgroup">
+                <p:commandButton value ="Anlegen" action ="#{jsfController.saveEmployee}" update="form, growl"/>
+                <p:inputText value="#{jsfController.saveFirstName}" placeholder="Vorname"/>
+                <p:inputText value="#{jsfController.saveLastName}" placeholder="Nachname"/>
+                <p:selectOneMenu value="#{jsfController.saveDepartment}" converter="omnifaces.SelectItemsConverter">
+                    <f:selectItem itemValue="#{null}" itemLabel="Abteilung"/>
+                    <f:selectItems value="#{jsfController.departments}" var="department" itemLabel="#{department.name}" itemValue="#{jsfController.saveDepartment}"/>
+                    <p:column>
+                        <h:outputText value="#{dep.name}"/>
+                    </p:column>
+                </p:selectOneMenu>
+            </div>
+            <div class="ui-inputgroup">
+                <p:commandButton value ="Aktualisieren" action ="#{jsfController.updateEmployee}" update="form, growl"/>
+                <p:inputText value="#{jsfController.updateEmployeeId}" placeholder="ID"/>
+                <p:inputText value="#{jsfController.updateFirstName}" placeholder="Vorname"/>
+                <p:inputText value="#{jsfController.updateLastName}" placeholder="Nachname"/>
+                <p:selectOneMenu value="#{jsfController.updateDepartment}" converter="omnifaces.SelectItemsConverter">
+                    <f:selectItem itemValue="#{null}" itemLabel="Abteilung"/>
+                    <f:selectItems value="#{jsfController.departments}" var="department" itemLabel="#{department.name}" itemValue="#{jsfController.updateDepartment}"/>
+                    <p:column>
+                        <h:outputText value="#{dep.name}"/>
+                    </p:column>
+                </p:selectOneMenu>
+            </div>
+            <div class="ui-inputgroup">
+                <p:commandButton value="Löschen" action="#{jsfController.deleteEmployee}" update="form"/>
+                <p:inputText value="#{jsfController.deleteEmployeeId}" placeholder="ID"/>
+            </div>
+
+            <p:dataTable value="#{jsfController.employees}" var="employee" showGridlines="true"
+                         rows="10" paginator="true" paginatorPosition="both"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records">
+                <p:column headerText="ID">
+                    <h:outputText value="#{employee.id}" />
+                </p:column>
+                <p:column headerText="Vorname">
+                    <h:outputText value="#{employee.firstName}" />
+                </p:column>
+                <p:column headerText="Nachname">
+                    <h:outputText value="#{employee.lastName}" />
+                </p:column>
+                <p:column headerText="Abteilung">
+                    <h:outputText value="#{employee.department.name}" />
+                </p:column>
+                <p:column headerText="Straße">
+                    <h:outputText value="#{employee.address.street}" />
+                </p:column>
+                <p:column headerText="Hausnr.">
+                    <h:outputText value="#{employee.address.houseNumber}" />
+                </p:column>
+                <p:column headerText="PLZ">
+                    <h:outputText value="#{employee.address.zipCode}" />
+                </p:column>
+                <p:column headerText="Ort">
+                    <h:outputText value="#{employee.address.city}" />
+                </p:column>
+                <p:column headerText="Land">
+                    <h:outputText value="#{employee.address.country}" />
+                </p:column>
+
+            </p:dataTable>
+
+        </h:form>
+
+
+
+    </h:body>
+
+</html>

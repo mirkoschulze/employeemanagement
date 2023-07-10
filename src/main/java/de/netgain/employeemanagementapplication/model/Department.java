@@ -38,8 +38,6 @@ public class Department {
     @OneToMany(targetEntity = Employee.class, mappedBy = "department", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH}, fetch = FetchType.EAGER)
     private final List<Employee> employees;
     @Embedded
-//    @AttributeOverrides(value = {@AttributeOverride
-//        (name = "houseNumber"), column = @Column(name = "house_number")})
     @AttributeOverride(name = "houseNumber", column = @Column(name = " house_number"))
     private Address address;
 
@@ -96,8 +94,8 @@ public class Department {
     public void setAddress(Address address) {
         this.address = address;
     }
-
     //</editor-fold>
+    
     public void addEmployee(Employee employee) {
         if (employee == null) {
             return;
@@ -110,11 +108,13 @@ public class Department {
         employee.setDepartment(null);
     }
 
-    //TODO add address
     //<editor-fold defaultstate="collapsed" desc="toString()/hashCode()/equals()">
     @Override
     public String toString() {
-        return String.format("%s[id=%d] %s", getClass().getSimpleName(), getId(), getName());
+        StringBuilder sb = new StringBuilder(String.format("%s[id=%d] %s", this.getClass().getSimpleName(),
+                this.getId(), this.getName()));
+        if(this.address != null)sb.append(", ").append(this.address.toString());
+        return sb.toString();
     }
 
     @Override
