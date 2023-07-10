@@ -29,31 +29,60 @@ public class EmployeeRestController {
     @Autowired
     private EmployeeService employeeService;
 
-    //TODO javadoc
+    /**
+     * Get all {@link Employee} entities.
+     *
+     * @return A List containing all found Employees.
+     */
     @GetMapping
     public Collection<Employee> readEmployees() {
         L.debug("[" + this.getClass().getSimpleName() + "] : readEmployees() called");
         return employeeService.getAllEmployees();
     }
 
+    /**
+     * Get the {@link Employee} with the submitted id.
+     *
+     * @param id Id of the requested Employee.
+     * @return The requested Employee.
+     *
+     */
     @GetMapping(value = "/{empId}")
     public Employee readEmployee(@PathVariable(value = "empId") long id) {
         L.debug("[" + this.getClass().getSimpleName() + "] : readEmployee(long id) called with param = " + id);
         return employeeService.getEmployeeById(id).get();
     }
 
+    /**
+     * Submit an {@link Employee} entity to persist.
+     *
+     * @param employee The Employee to persist.
+     * @return The persisted Empoyee.
+     */
     @PostMapping
     public Employee saveEmployee(@RequestBody Employee employee) {
         L.debug("[" + this.getClass().getSimpleName() + "] : saveEmployee(Employee employee) called with param = " + employee);
         return employeeService.saveEmployee(employee);
     }
 
+    /**
+     * Submit an {@link Employee} entity to merge it with one in the database.
+     *
+     * @param id Id of the Employee to be merged.
+     * @param employeeData Employee with new data
+     * @return The merged Employee.
+     */
     @PutMapping(value = "/{empId}")
     public Employee updateEmployee(@PathVariable(value = "empId") long id, @RequestBody Employee employeeData) {
         L.debug("[" + this.getClass().getSimpleName() + "] : updateEmployee(long id, Employee employeeData) called with param = " + id + ", " + employeeData);
         return employeeService.updateEmployee(id, employeeData).get();
     }
 
+    /**
+     * Delete an {@link Employee} entity from the database.
+     *
+     * @param id Id of the Employee to be deleted.
+     */
     @DeleteMapping(value = "/{empId}")
     public void deleteEmployee(@PathVariable(value = "empId") long id) {
         L.debug("[" + this.getClass().getSimpleName() + "] : deleteEmployees(long id) called with param = " + id);
