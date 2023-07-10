@@ -36,3 +36,5 @@ nbactions.xml
 *.log
 *.log
 nbactions.xml
+*.log
+*.log
