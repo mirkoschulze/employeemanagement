@@ -29,7 +29,7 @@ public class Generator {
     private List<String> firstNames;
     private List<String> lastNames;
 
-    private final Random randy = new Random();
+    private Random randy = new Random();
 
     public Generator() {
 
@@ -83,9 +83,32 @@ public class Generator {
             firstNames.add("Luise");
             firstNames.add("Charlotte");
         }
+    }
+
+    public void prepareDatabase(EmployeeRepository empRepo, DepartmentRepository depRepo) {
+        depRepo.save(new Department("Geschäftsführung", this.generateAddress()));
+        depRepo.save(new Department("Entwicklung", this.generateAddress()));
+        depRepo.save(new Department("Produktion", this.generateAddress()));
+        depRepo.save(new Department("Public Relations", this.generateAddress()));
+        depRepo.save(new Department("Juristerei", this.generateAddress()));
+
+        List<Department> departments = depRepo.findAll();
+
+        for (int i = 0; i < 50; i++) {
+            Employee emp = new Employee(firstNames.get(randy.nextInt(firstNames.size())),
+                    lastNames.get(randy.nextInt(lastNames.size())),
+                    departments.get(randy.nextInt(departments.size())),
+                    this.generateAddress());
+            empRepo.save(emp);
+        }
 
     }
 
+    /**
+     * Generates a random {@link Address} in Germany.
+     *
+     * @return A random Address.
+     */
     public Address generateAddress() {
         return new Address(
                 streets.get(randy.nextInt(streets.size())),
@@ -95,21 +118,4 @@ public class Generator {
                 "Deutschland");
     }
 
-    public void generateDatabase(DepartmentRepository depRepo, EmployeeRepository empRepo) {
-        depRepo.save(new Department("Geschäftsführung", generateAddress()));
-        depRepo.save(new Department("Produktion", generateAddress()));
-        depRepo.save(new Department("Entwicklung", generateAddress()));
-
-        List<Department> departments = depRepo.findAll();
-
-        for (int i = 0; i < 20; i++) {
-            Address address = generateAddress();
-            Employee emp = new Employee(firstNames.get(randy.nextInt(firstNames.size())),
-                    lastNames.get(randy.nextInt(lastNames.size())),
-                    departments.get(randy.nextInt(departments.size())));
-            emp.setAddress(address);
-            empRepo.save(emp);
-        }
-
-    }
 }

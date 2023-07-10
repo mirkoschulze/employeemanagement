@@ -35,7 +35,7 @@ public class Department {
     @Column(name = "name")
     private String name;
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    @OneToMany(targetEntity = Employee.class, mappedBy = "department", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH}, fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = Employee.class, mappedBy = "department", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     private final List<Employee> employees;
     @Embedded
     @AttributeOverride(name = "houseNumber", column = @Column(name = " house_number"))
