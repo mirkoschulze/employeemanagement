@@ -108,21 +108,18 @@ public class Employee {
     public void setAddress(Address address) {
         this.address = address;
     }
-
     //</editor-fold>
-    //TODO address
+
     //<editor-fold defaultstate="collapsed" desc="toString()/hashCode()/equals()">
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(String.format("%s[id=%d] %s %s", this.getClass().getSimpleName(),
                 this.getId(), this.getFirstName(), this.getLastName()));
         if (this.department != null) {
-            sb.append(", ");
-            sb.append(this.getDepartment().toString());
+            sb.append(", ").append(this.getDepartment().toString());
         }
         if (this.address != null) {
-            sb.append(", ");
-            sb.append(this.address.toString());
+            sb.append(", ").append(this.address.toString());
         }
         return sb.toString();
     }
