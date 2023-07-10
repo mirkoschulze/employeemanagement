@@ -34,11 +34,11 @@
 
             <div class="ui-inputgroup">
                 <p:commandButton value ="Anlegen" action ="#{jsfController.saveDepartment}" update="form, growl"/>
-                <p:inputText value="#{jsfController.saveName}" placeholder="Bezeichnung"/>
+                <p:inputText value="#{jsfController.saveName}" placeholder="Bezeichnung" required="true" requiredMessage="Bezeichnung eingeben"/>
             </div>
             <div class="ui-inputgroup">
                 <p:commandButton value ="Aktualisieren" action ="#{jsfController.updateDepartment}" update="form, growl"/>
-                <p:inputText label="ID" value="#{jsfController.updateDepartmentId}" placeholder="ID"/>
+                <p:inputText value="#{jsfController.updateDepartmentId}" placeholder="ID"/>
                 <p:inputText value="#{jsfController.updateName}" placeholder="Bezeichung"/>
             </div>
             <div class="ui-inputgroup">

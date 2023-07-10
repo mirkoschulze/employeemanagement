@@ -34,8 +34,8 @@
 
             <div class="ui-inputgroup">
                 <p:commandButton value ="Anlegen" action ="#{jsfController.saveEmployee}" update="form, growl"/>
-                <p:inputText value="#{jsfController.saveFirstName}" placeholder="Vorname"/>
-                <p:inputText value="#{jsfController.saveLastName}" placeholder="Nachname"/>
+                <p:inputText value="#{jsfController.saveFirstName}" placeholder="Vorname" required="true" requiredMessage="Voramen eingeben"/>
+                <p:inputText value="#{jsfController.saveLastName}" placeholder="Nachname" required="true" requiredMessage="Nachnamen eingeben"/>
                 <p:selectOneMenu value="#{jsfController.saveDepartment}" converter="omnifaces.SelectItemsConverter">
                     <f:selectItem itemValue="#{null}" itemLabel="Abteilung"/>
                     <f:selectItems value="#{jsfController.departments}" var="department" itemLabel="#{department.name}" itemValue="#{jsfController.saveDepartment}"/>

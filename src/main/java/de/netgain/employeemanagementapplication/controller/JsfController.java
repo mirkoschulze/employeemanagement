@@ -42,11 +42,9 @@ public class JsfController implements Serializable {
 
     private Department saveDepartment, updateDepartment;
 
-    private long updateEmployeeId, deleteEmployeeId, updateDepartmentId, deleteDepartmentId;
+    private Long updateEmployeeId, deleteEmployeeId, updateDepartmentId, deleteDepartmentId;
 
     private String saveFirstName, saveLastName, updateFirstName, updateLastName, saveName, updateName;
-
-    private boolean isEntityPresent;
 
     //<editor-fold defaultstate="collapsed" desc="getter/setter">
     public List<Employee> getEmployees() {
@@ -81,35 +79,35 @@ public class JsfController implements Serializable {
         this.updateDepartment = updateDepartment;
     }
 
-    public long getUpdateEmployeeId() {
+    public Long getUpdateEmployeeId() {
         return updateEmployeeId;
     }
 
-    public void setUpdateEmployeeId(long updateEmployeeId) {
+    public void setUpdateEmployeeId(Long updateEmployeeId) {
         this.updateEmployeeId = updateEmployeeId;
     }
 
-    public long getDeleteEmployeeId() {
+    public Long getDeleteEmployeeId() {
         return deleteEmployeeId;
     }
 
-    public void setDeleteEmployeeId(long deleteEmployeeId) {
+    public void setDeleteEmployeeId(Long deleteEmployeeId) {
         this.deleteEmployeeId = deleteEmployeeId;
     }
 
-    public long getUpdateDepartmentId() {
+    public Long getUpdateDepartmentId() {
         return updateDepartmentId;
     }
 
-    public void setUpdateDepartmentId(long updateDepartmentId) {
+    public void setUpdateDepartmentId(Long updateDepartmentId) {
         this.updateDepartmentId = updateDepartmentId;
     }
 
-    public long getDeleteDepartmentId() {
+    public Long getDeleteDepartmentId() {
         return deleteDepartmentId;
     }
 
-    public void setDeleteDepartmentId(long deleteDepartmentId) {
+    public void setDeleteDepartmentId(Long deleteDepartmentId) {
         this.deleteDepartmentId = deleteDepartmentId;
     }
 
