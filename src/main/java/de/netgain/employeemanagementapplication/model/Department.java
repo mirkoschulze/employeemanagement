@@ -11,6 +11,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
@@ -32,11 +33,14 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "department_id")
     private long id;
+
     @Column(name = "name")
     private String name;
+
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @OneToMany(targetEntity = Employee.class, mappedBy = "department", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     private final List<Employee> employees;
+
     @Embedded
     @AttributeOverride(name = "houseNumber", column = @Column(name = " house_number"))
     private Address address;
@@ -95,7 +99,7 @@ public class Department {
         this.address = address;
     }
     //</editor-fold>
-    
+
     public void addEmployee(Employee employee) {
         if (employee == null) {
             return;
@@ -113,7 +117,9 @@ public class Department {
     public String toString() {
         StringBuilder sb = new StringBuilder(String.format("%s[id=%d] %s", this.getClass().getSimpleName(),
                 this.getId(), this.getName()));
-        if(this.address != null)sb.append(", ").append(this.address.toString());
+        if (this.address != null) {
+            sb.append(", ").append(this.address.toString());
+        }
         return sb.toString();
     }
 

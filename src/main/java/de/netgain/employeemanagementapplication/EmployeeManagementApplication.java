@@ -15,17 +15,14 @@ import org.springframework.context.annotation.Bean;
  */
 @SpringBootApplication
 public class EmployeeManagementApplication extends SpringBootServletInitializer {
+    //TODO custom query box
 
     public static void main(String[] args) {
         SpringApplication.run(EmployeeManagementApplication.class, args);
     }
 
-    //XXX
-    /**
-     * Only during development.
-     */
     @Bean
-    public CommandLineRunner departments(EmployeeRepository empRepo, DepartmentRepository depRepo) {
+    public CommandLineRunner prepareDb(EmployeeRepository empRepo, DepartmentRepository depRepo) {
         return (args) -> {
             Generator gen = new Generator();
             gen.prepareDatabase(empRepo, depRepo);

@@ -94,7 +94,7 @@ public class Generator {
 
         List<Department> departments = depRepo.findAll();
 
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 20; i++) {
             Employee emp = new Employee(firstNames.get(randy.nextInt(firstNames.size())),
                     lastNames.get(randy.nextInt(lastNames.size())),
                     departments.get(randy.nextInt(departments.size())),
