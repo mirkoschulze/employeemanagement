@@ -30,6 +30,7 @@ public class JsfConfig implements ServletContextAware, WebMvcConfigurer, WebAppl
     @Override
     public void setServletContext(ServletContext servletContext) {
         servletContext.setInitParameter("com.sun.faces.forceLoadConfiguration", Boolean.TRUE.toString());
+        servletContext.setAttribute(com.sun.faces.RIConstants.FACES_INITIALIZER_MAPPINGS_ADDED, Boolean.TRUE);
     }
 
     @Override
