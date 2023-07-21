@@ -6,6 +6,7 @@ import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -29,14 +30,18 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "employee_id")
     private long id;
+    
     @Column(name = "first_name")
     private String firstName;
+    
     @Column(name = "last_name")
     private String lastName;
+    
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @ManyToOne
-    @JoinColumn(name = "department_id", referencedColumnName = "department_id")
+    @JoinColumn(name = "department_id", referencedColumnName = "department_id",foreignKey = @ForeignKey(name = "FK_departments"))
     private Department department;
+    
     @Embedded
     @AttributeOverride(name = "houseNumber", column = @Column(name = " house_number"))
     private Address address;
@@ -109,6 +114,7 @@ public class Employee {
         this.address = address;
     }
     //</editor-fold>
+    
 
     //<editor-fold defaultstate="collapsed" desc="toString()/hashCode()/equals()">
     @Override
