@@ -64,6 +64,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employee;
     }
 
+//    @Secured("ROLE_ADMIN")
     @Override
     public void deleteEmployee(long id) {
         L.debug("[{}] : deleteEmployee(long id) called with param = {}", this.getClass().getSimpleName(), id);

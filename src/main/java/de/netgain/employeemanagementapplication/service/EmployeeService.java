@@ -20,6 +20,7 @@ public interface EmployeeService {
 
     Optional<Employee> updateEmployee(long id, Employee employeeData);
 
+//    @Secured("ADMIN")
     void deleteEmployee(long id);
 
 }

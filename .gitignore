@@ -35,3 +35,7 @@ build/
 nbactions.xml
 *.log
 *.log
+/nbproject/
+*.log
+logs/debug.log
+*.log
